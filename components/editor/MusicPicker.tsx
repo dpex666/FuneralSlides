@@ -9,6 +9,7 @@ export default function MusicPicker() {
   const [tab, setTab] = useState<'library' | 'custom'>('library')
   const [tracks, setTracks] = useState<MusicTrack[]>([])
   const [playing, setPlaying] = useState<string | null>(null)
+  const [hasPermission, setHasPermission] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => {
@@ -106,32 +107,52 @@ export default function MusicPicker() {
           ))}
         </div>
       ) : (
-        <div className="border-2 border-dashed border-[var(--neutral-deep-highlight)] rounded-lg p-6 text-center">
-          <p className="text-[var(--neutral-muted)] text-sm">Custom audio upload</p>
-          <input
-            type="file"
-            accept="audio/mpeg,audio/mp3,audio/wav,audio/ogg"
-            onChange={async (e) => {
-              const file = e.target.files?.[0]
-              if (!file || !sessionId) return
-              const fd = new FormData()
-              fd.append('file', file)
-              const res = await fetch('/api/upload', {
-                method: 'POST',
-                headers: { 'x-session-id': sessionId },
-                body: fd,
-              })
-              const data = await res.json() as { files: Array<{ storedFilename: string; url: string }> }
-              if (data.files[0]) {
-                setMusic({
-                  source: 'custom',
-                  customAudioFilename: data.files[0].storedFilename,
-                  customAudioUrl: data.files[0].url,
+        <div className="space-y-3">
+          {/* Copyright permission checkbox — must be ticked before upload is enabled */}
+          <label className="flex items-start gap-3 cursor-pointer group">
+            <input
+              type="checkbox"
+              checked={hasPermission}
+              onChange={(e) => setHasPermission(e.target.checked)}
+              className="mt-0.5 w-4 h-4 rounded accent-[var(--funeral-primary)] flex-shrink-0 cursor-pointer"
+            />
+            <span className="text-sm text-[var(--neutral-muted)] leading-snug group-hover:text-[var(--neutral-text)] transition-colors">
+              I confirm that I have the right to use this audio in my tribute (e.g. I own it, have a licence, or it is royalty-free).
+            </span>
+          </label>
+
+          <div className={`border-2 border-dashed rounded-lg p-6 text-center transition-opacity ${hasPermission ? 'opacity-100' : 'opacity-40 pointer-events-none'}`} style={{ borderColor: 'var(--neutral-deep-highlight)' }}>
+            <p className="text-[var(--neutral-muted)] text-sm mb-3">
+              {music.source === 'custom' && music.customAudioFilename
+                ? '✓ Custom audio selected — upload a new file to replace'
+                : 'Upload your audio file (MP3, WAV, OGG)'}
+            </p>
+            <input
+              type="file"
+              accept="audio/mpeg,audio/mp3,audio/wav,audio/ogg"
+              disabled={!hasPermission}
+              onChange={async (e) => {
+                const file = e.target.files?.[0]
+                if (!file || !sessionId) return
+                const fd = new FormData()
+                fd.append('file', file)
+                const res = await fetch('/api/upload', {
+                  method: 'POST',
+                  headers: { 'x-session-id': sessionId },
+                  body: fd,
                 })
-              }
-            }}
-            className="mt-3 text-sm text-[var(--neutral-muted)] file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:bg-[var(--neutral-deep-highlight)] file:text-[var(--neutral-text)] file:cursor-pointer"
-          />
+                const data = await res.json() as { files: Array<{ storedFilename: string; url: string }> }
+                if (data.files[0]) {
+                  setMusic({
+                    source: 'custom',
+                    customAudioFilename: data.files[0].storedFilename,
+                    customAudioUrl: data.files[0].url,
+                  })
+                }
+              }}
+              className="text-sm text-[var(--neutral-muted)] file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:bg-[var(--neutral-deep-highlight)] file:text-[var(--neutral-text)] file:cursor-pointer"
+            />
+          </div>
         </div>
       )}
 

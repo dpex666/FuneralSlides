@@ -1,8 +1,12 @@
+import ffmpegInstaller from '@ffmpeg-installer/ffmpeg'
 import ffmpeg from 'fluent-ffmpeg'
 import path from 'path'
 import fs from 'fs'
 import type { SlideshowConfig, QualityTier, TransitionType } from '@/types/slideshow'
 import { sessionDir, ensureDir } from './storage'
+
+// Use bundled static FFmpeg binary so no system FFmpeg is required
+ffmpeg.setFfmpegPath(ffmpegInstaller.path)
 
 export const QUALITY_SETTINGS: Record<
   'preview' | QualityTier,
@@ -32,10 +36,11 @@ export async function preprocessMedia(
   durationSeconds: number,
   resolution: string,
 ): Promise<void> {
+  const [w, h] = resolution.split('x')
   return new Promise((resolve, reject) => {
     const cmd = ffmpeg(inputPath)
       .outputOptions([
-        '-vf', `scale=${resolution}:force_original_aspect_ratio=decrease,pad=${resolution}:(ow-iw)/2:(oh-ih)/2,setsar=1`,
+        '-vf', `scale=${w}:${h}:force_original_aspect_ratio=decrease,pad=${w}:${h}:(ow-iw)/2:(oh-ih)/2:black,setsar=1`,
         '-t', String(durationSeconds),
         '-r', '25',
         '-vsync', 'cfr',
@@ -65,7 +70,7 @@ export async function renderSlideshow(
   const { slides, music } = config
   const { tier, watermark } = options
   const quality = QUALITY_SETTINGS[tier]
-  const [width, height] = quality.resolution.split('x').map(Number)
+  const [w, h] = quality.resolution.split('x').map(Number)
   const dir = sessionDir(config.sessionId)
   ensureDir(dir)
 
@@ -102,10 +107,11 @@ export async function renderSlideshow(
     filterLines.push('[0:v]copy[vout]')
   }
 
-  // Watermark
+  // Watermark: font-free box overlay so no system fonts are required
   if (watermark) {
+    const barH = Math.round(h * 0.08)
     filterLines.push(
-      `[vout]drawtext=text='PassingMoments Preview':fontcolor=white@0.4:fontsize=${Math.round(height / 22)}:x=(w-text_w)/2:y=h-th-30:box=1:boxcolor=black@0.3:boxborderw=8[vwm]`,
+      `[vout]drawbox=x=0:y=ih-${barH}:w=iw:h=${barH}:color=black@0.55:t=fill[vwm]`,
     )
   }
 
@@ -119,7 +125,7 @@ export async function renderSlideshow(
       cmd.addInput(clip)
     }
 
-    // Music
+    // Music — add with stream_loop so short tracks repeat to fill the video
     let musicPath: string | null = null
     if (music.source === 'library' && music.trackId) {
       musicPath = path.join(process.cwd(), 'public', 'music', `${music.trackId}.mp3`)
@@ -128,14 +134,16 @@ export async function renderSlideshow(
     }
 
     const totalDuration = slides.reduce((s, sl) => s + sl.duration, 0)
+    const hasMusicFile = musicPath !== null && fs.existsSync(musicPath)
 
-    if (musicPath && fs.existsSync(musicPath)) {
-      cmd.addInput(musicPath)
-      cmd.addInputOption('-stream_loop', '-1') // not usable after input — handled below
+    if (hasMusicFile) {
+      // -stream_loop must come before the input file
+      cmd.addInput(musicPath as string)
+      cmd.addInputOption('-stream_loop', '-1')
     }
 
-    const audioFilter = musicPath && fs.existsSync(musicPath)
-      ? `[${clipPaths.length}:a]volume=${music.volume},afade=t=out:st=${totalDuration - 3}:d=3[aout]`
+    const audioFilter = hasMusicFile
+      ? `[${clipPaths.length}:a]volume=${music.volume},afade=t=out:st=${Math.max(0, totalDuration - 3)}:d=3[aout]`
       : null
 
     const fullFilter = audioFilter

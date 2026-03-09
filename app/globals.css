@@ -80,3 +80,13 @@ html {
 ::-webkit-scrollbar-track { background: var(--neutral-highlight); }
 ::-webkit-scrollbar-thumb { background: var(--neutral-deep-highlight); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--neutral-muted); }
+
+/* Safe-area padding for iOS notch/home-bar */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Ensure full-height on mobile including dynamic toolbar */
+.min-h-dvh {
+  min-height: 100dvh;
+}
