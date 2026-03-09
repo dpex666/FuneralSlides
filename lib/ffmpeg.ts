@@ -1,12 +1,8 @@
-import ffmpegInstaller from '@ffmpeg-installer/ffmpeg'
 import ffmpeg from 'fluent-ffmpeg'
 import path from 'path'
 import fs from 'fs'
 import type { SlideshowConfig, QualityTier, TransitionType } from '@/types/slideshow'
 import { sessionDir, ensureDir } from './storage'
-
-// Use bundled static FFmpeg binary so no system FFmpeg is required
-ffmpeg.setFfmpegPath(ffmpegInstaller.path)
 
 export const QUALITY_SETTINGS: Record<
   'preview' | QualityTier,

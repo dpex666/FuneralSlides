@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ['fluent-ffmpeg', 'sharp', 'formidable', 'bullmq', 'ioredis', '@ffmpeg-installer/ffmpeg'],
+  serverExternalPackages: ['fluent-ffmpeg', 'sharp', 'formidable', 'bullmq', 'ioredis'],
   headers: async () => [
     {
       source: '/(.*)',
