@@ -1,0 +1,37 @@
+[
+  {
+    "id": "gentle-remembrance",
+    "title": "Gentle Remembrance",
+    "filename": "gentle-remembrance.mp3",
+    "durationSeconds": 180,
+    "sourceCredit": "Royalty-free — add MP3 file to /public/music/"
+  },
+  {
+    "id": "peaceful-journey",
+    "title": "Peaceful Journey",
+    "filename": "peaceful-journey.mp3",
+    "durationSeconds": 210,
+    "sourceCredit": "Royalty-free — add MP3 file to /public/music/"
+  },
+  {
+    "id": "soft-memories",
+    "title": "Soft Memories",
+    "filename": "soft-memories.mp3",
+    "durationSeconds": 195,
+    "sourceCredit": "Royalty-free — add MP3 file to /public/music/"
+  },
+  {
+    "id": "eternal-light",
+    "title": "Eternal Light",
+    "filename": "eternal-light.mp3",
+    "durationSeconds": 240,
+    "sourceCredit": "Royalty-free — add MP3 file to /public/music/"
+  },
+  {
+    "id": "whispered-goodbye",
+    "title": "Whispered Goodbye",
+    "filename": "whispered-goodbye.mp3",
+    "durationSeconds": 220,
+    "sourceCredit": "Royalty-free — add MP3 file to /public/music/"
+  }
+]
