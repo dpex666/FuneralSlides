@@ -20,11 +20,20 @@ export function startPreviewWorker() {
 
       return { outputPath }
     },
-    { connection, concurrency: 2 },
+    {
+      connection,
+      concurrency: 2,
+      // Kill jobs that hang for more than 3 minutes
+      lockDuration: 180_000,
+    },
   )
 
   worker.on('failed', (job, err) => {
-    console.error(`[preview] job ${job?.id} failed:`, err.message)
+    console.error(`[preview] job ${job?.id} failed: ${err.message}`)
+  })
+
+  worker.on('error', (err) => {
+    console.error('[preview worker] error:', err.message)
   })
 
   return worker

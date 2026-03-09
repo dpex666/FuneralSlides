@@ -9,6 +9,7 @@ import Timeline from '@/components/editor/Timeline'
 import SlideEditor from '@/components/editor/SlideEditor'
 import MusicPicker from '@/components/editor/MusicPicker'
 import PreviewPlayer from '@/components/editor/PreviewPlayer'
+import CollageCreator from '@/components/editor/CollageCreator'
 
 type MobileTab = 'upload' | 'slides' | 'music' | 'preview'
 
@@ -43,6 +44,7 @@ export default function EditorPage() {
   const { slides, previewStatus, previewUrl, generatePreview, initSession } = useSlideshowStore()
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [showMusic, setShowMusic] = useState(false)
+  const [showCollage, setShowCollage] = useState(false)
   const [mobileTab, setMobileTab] = useState<MobileTab>('upload')
   const router = useRouter()
 
@@ -163,9 +165,29 @@ export default function EditorPage() {
           {/* Timeline strip */}
           <div
             style={{ borderBottom: '1px solid var(--neutral-deep-highlight)', backgroundColor: 'var(--neutral-deep-highlight)' }}
-            className="p-4 flex-shrink-0"
+            className="p-4 flex-shrink-0 space-y-2"
           >
             <Timeline selectedId={selectedId} onSelect={setSelectedId} />
+            <button
+              onClick={() => setShowCollage(!showCollage)}
+              className="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5"
+              style={{
+                backgroundColor: showCollage ? 'var(--funeral-primary)' : 'var(--neutral-highlight)',
+                color: showCollage ? 'white' : 'var(--neutral-muted)',
+                border: '1px solid var(--neutral-deep-highlight)',
+              }}
+            >
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                  d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+              </svg>
+              Create Collage Slide
+            </button>
+            {showCollage && (
+              <div className="p-3 rounded-xl" style={{ backgroundColor: 'var(--neutral-highlight)', border: '1px solid var(--neutral-deep-highlight)' }}>
+                <CollageCreator onClose={() => setShowCollage(false)} />
+              </div>
+            )}
           </div>
 
           <div className="flex-1 flex overflow-hidden">
@@ -212,7 +234,27 @@ export default function EditorPage() {
                 className="p-3"
               >
                 <Timeline selectedId={selectedId} onSelect={setSelectedId} />
+                <button
+                  onClick={() => setShowCollage(!showCollage)}
+                  className="mt-2 w-full py-2 rounded-lg text-xs font-medium transition-colors flex items-center justify-center gap-1.5"
+                  style={{
+                    backgroundColor: showCollage ? 'var(--funeral-primary)' : 'var(--neutral-highlight)',
+                    color: showCollage ? 'white' : 'var(--neutral-muted)',
+                    border: '1px solid var(--neutral-deep-highlight)',
+                  }}
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                      d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                  </svg>
+                  Create Collage Slide
+                </button>
               </div>
+              {showCollage && (
+                <div className="p-3" style={{ borderBottom: '1px solid var(--neutral-deep-highlight)' }}>
+                  <CollageCreator onClose={() => setShowCollage(false)} />
+                </div>
+              )}
               <SlideEditor selectedId={selectedId} />
             </div>
           )}

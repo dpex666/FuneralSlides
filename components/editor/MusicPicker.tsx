@@ -19,20 +19,81 @@ export default function MusicPicker() {
       .catch(() => {})
   }, [])
 
+  // Web-Audio nodes used when no real MP3 file is available
+  const synthRef = useRef<{ ctx: AudioContext; nodes: AudioNode[] } | null>(null)
+
+  const stopSynth = () => {
+    if (synthRef.current) {
+      synthRef.current.nodes.forEach((n) => {
+        try { (n as OscillatorNode).stop?.() } catch { /* already stopped */ }
+      })
+      synthRef.current.ctx.close()
+      synthRef.current = null
+    }
+  }
+
+  /** Play a gentle arpeggio unique to each track using Web Audio API */
+  const playSynth = (track: MusicTrack) => {
+    stopSynth()
+    // Each track gets a slightly different base note
+    const bases = [261.63, 293.66, 329.63, 349.23, 392.0]
+    const trackIndex = tracks.findIndex((t) => t.id === track.id)
+    const root = bases[trackIndex % bases.length]
+    // Pentatonic intervals: unison, major 2nd, major 3rd, perfect 5th, major 6th
+    const ratios = [1, 9/8, 5/4, 3/2, 5/3]
+    const ctx = new AudioContext()
+    const masterGain = ctx.createGain()
+    masterGain.gain.setValueAtTime(0.18, ctx.currentTime)
+    masterGain.connect(ctx.destination)
+    const nodes: AudioNode[] = [masterGain]
+    // Play notes one at a time in a gentle arpeggio, 0.6 s apart
+    ratios.forEach((ratio, i) => {
+      const osc = ctx.createOscillator()
+      const envGain = ctx.createGain()
+      osc.type = 'sine'
+      osc.frequency.value = root * ratio
+      const t0 = ctx.currentTime + i * 0.6
+      envGain.gain.setValueAtTime(0, t0)
+      envGain.gain.linearRampToValueAtTime(1, t0 + 0.05)
+      envGain.gain.exponentialRampToValueAtTime(0.001, t0 + 1.8)
+      osc.connect(envGain)
+      envGain.connect(masterGain)
+      osc.start(t0)
+      osc.stop(t0 + 1.9)
+      osc.onended = () => {
+        if (i === ratios.length - 1) {
+          setPlaying(null)
+          stopSynth()
+        }
+      }
+      nodes.push(osc, envGain)
+    })
+    synthRef.current = { ctx, nodes }
+    setPlaying(track.id)
+  }
+
   const playTrack = (track: MusicTrack) => {
+    // Stop any currently playing audio
     if (audioRef.current) {
       audioRef.current.pause()
       audioRef.current = null
     }
+    stopSynth()
+
     if (playing === track.id) {
       setPlaying(null)
       return
     }
+    // Try real file first; fall back to synth if unavailable
     const audio = new Audio(`/music/${track.filename}`)
     audio.onended = () => setPlaying(null)
-    audio.play().catch(() => {})
-    audioRef.current = audio
-    setPlaying(track.id)
+    audio.play().then(() => {
+      audioRef.current = audio
+      setPlaying(track.id)
+    }).catch(() => {
+      // File not available — play synthesised preview
+      playSynth(track)
+    })
   }
 
   const selectTrack = (track: MusicTrack) => {
