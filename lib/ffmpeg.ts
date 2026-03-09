@@ -89,7 +89,9 @@ export async function renderSlideshow(
 
   for (let i = 0; i < clipPaths.length - 1; i++) {
     const slide = slides[i]
-    const offset = slides.slice(0, i + 1).reduce((s, sl) => s + sl.duration, 0) - TRANSITION_DURATION
+    // Each prior xfade shortens the stream by TRANSITION_DURATION, so offset must
+    // subtract (i+1) * TRANSITION_DURATION, not just one TRANSITION_DURATION.
+    const offset = slides.slice(0, i + 1).reduce((s, sl) => s + sl.duration, 0) - (i + 1) * TRANSITION_DURATION
     const outLabel = i === clipPaths.length - 2 ? '[vout]' : `[v${i + 1}]`
     const xfade = xfadeName(slide.transition)
     filterLines.push(

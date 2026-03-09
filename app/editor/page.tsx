@@ -10,7 +10,7 @@ import SlideEditor from '@/components/editor/SlideEditor'
 import MusicPicker from '@/components/editor/MusicPicker'
 import PreviewPlayer from '@/components/editor/PreviewPlayer'
 
-type MobileTab = 'upload' | 'slides' | 'preview'
+type MobileTab = 'upload' | 'slides' | 'music' | 'preview'
 
 const UploadIcon = () => (
   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -32,8 +32,8 @@ const PreviewIcon = () => (
       d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
   </svg>
 )
-const MusicIcon = () => (
-  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+const MusicIcon = ({ size = 5 }: { size?: number }) => (
+  <svg className={`w-${size} h-${size}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
       d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
   </svg>
@@ -217,18 +217,16 @@ export default function EditorPage() {
             </div>
           )}
 
+          {mobileTab === 'music' && (
+            <div className="p-4">
+              <MusicPicker />
+            </div>
+          )}
+
           {mobileTab === 'preview' && (
             <div className="p-4 space-y-4">
               <PreviewPlayer />
-              <div className="flex gap-3">
-                <GenerateButton />
-                <MusicButton />
-              </div>
-              {showMusic && (
-                <div style={{ border: '1px solid var(--neutral-deep-highlight)', borderRadius: '0.75rem', backgroundColor: 'var(--neutral-highlight)' }} className="p-4">
-                  <MusicPicker />
-                </div>
-              )}
+              <GenerateButton fullWidth />
               {previewUrl && <PurchaseCard />}
             </div>
           )}
@@ -240,9 +238,10 @@ export default function EditorPage() {
           className="flex-shrink-0 flex pb-safe"
         >
           {([
-            { id: 'upload' as MobileTab, label: 'Upload', Icon: UploadIcon },
-            { id: 'slides' as MobileTab, label: 'Slides', Icon: SlidesIcon },
-            { id: 'preview' as MobileTab, label: 'Preview', Icon: PreviewIcon },
+            { id: 'upload' as MobileTab, label: 'Upload', Icon: () => <UploadIcon /> },
+            { id: 'slides' as MobileTab, label: 'Slides', Icon: () => <SlidesIcon /> },
+            { id: 'music' as MobileTab, label: 'Music', Icon: () => <MusicIcon size={5} /> },
+            { id: 'preview' as MobileTab, label: 'Preview', Icon: () => <PreviewIcon /> },
           ]).map(({ id, label, Icon }) => (
             <button
               key={id}
