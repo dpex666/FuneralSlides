@@ -14,7 +14,7 @@ const STEPS = [
   {
     number: '03',
     title: 'Download in HD',
-    description: 'Pay once, download your watermark-free tribute video in 720p, 1080p, or 4K — yours to keep forever.',
+    description: 'Pay once, download your watermark-free tribute video in 720p, 1080p, or 4K - yours to keep forever.',
   },
 ]
 
@@ -26,15 +26,15 @@ const PRICING = [
 
 export default function Home() {
   return (
-    <div style={{ backgroundColor: 'var(--bg)', color: 'var(--text)', minHeight: '100vh' }}>
+    <div style={{ backgroundColor: 'var(--neutral-bg)', color: 'var(--neutral-text)', minHeight: '100vh' }}>
       {/* Header */}
-      <header style={{ borderBottom: '1px solid var(--border)' }} className="px-6 py-4 flex items-center justify-between max-w-6xl mx-auto">
+      <header style={{ borderBottom: '1px solid var(--neutral-deep-highlight)' }} className="px-6 py-4 flex items-center justify-between max-w-6xl mx-auto">
         <div className="flex items-center gap-2">
-          <span style={{ color: 'var(--gold)', fontSize: '1.25rem', fontWeight: 700 }}>PassingMoments</span>
+          <span style={{ color: 'var(--funeral-primary)', fontSize: '1.25rem', fontWeight: 700 }}>PassingMoments</span>
         </div>
         <Link
           href="/editor"
-          style={{ backgroundColor: 'var(--gold)', color: 'var(--bg)' }}
+          style={{ backgroundColor: 'var(--funeral-primary)', color: 'var(--neutral-bg)' }}
           className="px-4 py-2 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity"
         >
           Create a Tribute
@@ -43,41 +43,41 @@ export default function Home() {
 
       {/* Hero */}
       <section className="max-w-4xl mx-auto px-6 pt-20 pb-16 text-center">
-        <p style={{ color: 'var(--gold)', fontSize: '0.875rem', letterSpacing: '0.1em' }} className="uppercase font-semibold mb-4">
+        <p style={{ color: 'var(--funeral-primary)', fontSize: '0.875rem', letterSpacing: '0.1em' }} className="uppercase font-semibold mb-4">
           Honour their memory
         </p>
-        <h1 style={{ color: 'var(--text)', lineHeight: 1.15 }} className="text-5xl font-bold mb-6">
+        <h1 style={{ color: 'var(--neutral-text)', lineHeight: 1.15 }} className="text-5xl font-bold mb-6">
           Beautiful memorial slideshows,<br />
-          <span style={{ color: 'var(--gold)' }}>in minutes</span>
+          <span style={{ color: 'var(--funeral-primary)' }}>in minutes</span>
         </h1>
-        <p style={{ color: 'var(--text-muted)', fontSize: '1.125rem', lineHeight: 1.7 }} className="max-w-2xl mx-auto mb-10">
+        <p style={{ color: 'var(--neutral-muted)', fontSize: '1.125rem', lineHeight: 1.7 }} className="max-w-2xl mx-auto mb-10">
           Upload your photos and videos, and PassingMoments creates a heartfelt tribute video automatically.
-          Refine it as much — or as little — as you like, then download in full HD quality.
+          Refine it as much - or as little - as you like, then download in full HD quality.
         </p>
         <Link
           href="/editor"
-          style={{ backgroundColor: 'var(--gold)', color: 'var(--bg)' }}
+          style={{ backgroundColor: 'var(--funeral-primary)', color: 'var(--neutral-bg)' }}
           className="inline-block px-8 py-4 rounded-xl text-lg font-semibold hover:opacity-90 transition-opacity"
         >
-          Create Your Tribute — Free to Preview
+          Create Your Tribute - Free to Preview
         </Link>
-        <p style={{ color: 'var(--text-muted)' }} className="mt-4 text-sm">
+        <p style={{ color: 'var(--neutral-muted)' }} className="mt-4 text-sm">
           No account needed · Pay only when you download
         </p>
       </section>
 
       {/* Steps */}
-      <section style={{ borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', backgroundColor: 'var(--surface)' }} className="py-16">
+      <section style={{ borderTop: '1px solid var(--neutral-deep-highlight)', borderBottom: '1px solid var(--neutral-deep-highlight)', backgroundColor: 'var(--neutral-highlight)' }} className="py-16">
         <div className="max-w-5xl mx-auto px-6">
-          <h2 style={{ color: 'var(--text)' }} className="text-2xl font-bold text-center mb-12">How it works</h2>
+          <h2 style={{ color: 'var(--neutral-text)' }} className="text-2xl font-bold text-center mb-12">How it works</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {STEPS.map((step) => (
               <div key={step.number} className="text-center">
-                <div style={{ color: 'var(--gold)', fontWeight: 700, fontSize: '2rem' }} className="mb-3">
+                <div style={{ color: 'var(--funeral-primary)', fontWeight: 700, fontSize: '2rem' }} className="mb-3">
                   {step.number}
                 </div>
-                <h3 style={{ color: 'var(--text)' }} className="font-semibold text-lg mb-2">{step.title}</h3>
-                <p style={{ color: 'var(--text-muted)', lineHeight: 1.6 }} className="text-sm">{step.description}</p>
+                <h3 style={{ color: 'var(--neutral-text)' }} className="font-semibold text-lg mb-2">{step.title}</h3>
+                <p style={{ color: 'var(--neutral-muted)', lineHeight: 1.6 }} className="text-sm">{step.description}</p>
               </div>
             ))}
           </div>
@@ -86,16 +86,16 @@ export default function Home() {
 
       {/* Pricing */}
       <section className="py-16 max-w-4xl mx-auto px-6">
-        <h2 style={{ color: 'var(--text)' }} className="text-2xl font-bold text-center mb-3">Simple, honest pricing</h2>
-        <p style={{ color: 'var(--text-muted)' }} className="text-center text-sm mb-10">Preview for free. Pay once when you&apos;re happy.</p>
+        <h2 style={{ color: 'var(--neutral-text)' }} className="text-2xl font-bold text-center mb-3">Simple, honest pricing</h2>
+        <p style={{ color: 'var(--neutral-muted)' }} className="text-center text-sm mb-10">Preview for free. Pay once when you&apos;re happy.</p>
         <div className="grid md:grid-cols-3 gap-4">
           {PRICING.map((p) => (
             <div
               key={p.tier}
               style={{
-                backgroundColor: p.highlight ? 'var(--gold)' : 'var(--surface)',
-                border: p.highlight ? 'none' : '1px solid var(--border)',
-                color: p.highlight ? 'var(--bg)' : 'var(--text)',
+                backgroundColor: p.highlight ? 'var(--funeral-primary)' : 'var(--neutral-highlight)',
+                border: p.highlight ? 'none' : '1px solid var(--neutral-deep-highlight)',
+                color: p.highlight ? 'var(--neutral-bg)' : 'var(--neutral-text)',
               }}
               className="rounded-xl p-6 text-center"
             >
@@ -108,7 +108,7 @@ export default function Home() {
         <div className="text-center mt-10">
           <Link
             href="/editor"
-            style={{ backgroundColor: 'var(--gold)', color: 'var(--bg)' }}
+            style={{ backgroundColor: 'var(--funeral-primary)', color: 'var(--neutral-bg)' }}
             className="inline-block px-8 py-4 rounded-xl text-lg font-semibold hover:opacity-90 transition-opacity"
           >
             Start Creating
@@ -117,7 +117,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer style={{ borderTop: '1px solid var(--border)', color: 'var(--text-muted)' }} className="py-8 text-center text-sm">
+      <footer style={{ borderTop: '1px solid var(--neutral-deep-highlight)', color: 'var(--neutral-muted)' }} className="py-8 text-center text-sm">
         <p>© {new Date().getFullYear()} PassingMoments · Crafted with care</p>
       </footer>
     </div>

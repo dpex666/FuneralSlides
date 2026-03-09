@@ -44,7 +44,7 @@ function CheckoutForm({ quality }: { quality: QualityTier }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="bg-[var(--surface)] rounded-xl p-5 border border-[var(--border)]">
+      <div className="bg-[var(--neutral-highlight)] rounded-xl p-5 border border-[var(--neutral-deep-highlight)]">
         <PaymentElement options={{ layout: 'tabs' }} />
       </div>
 
@@ -55,12 +55,12 @@ function CheckoutForm({ quality }: { quality: QualityTier }) {
       <button
         type="submit"
         disabled={!stripe || loading}
-        className="w-full py-3.5 bg-[var(--gold)] hover:bg-[var(--gold-light)] disabled:opacity-50 disabled:cursor-not-allowed text-[var(--bg)] font-semibold rounded-xl transition-colors"
+        className="w-full py-3.5 bg-[var(--funeral-primary)] hover:bg-[var(--funeral-tertiary)] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-colors"
       >
         {loading ? 'Processing…' : `Pay $${(PRICE_MAP[quality] / 100).toFixed(2)} · ${QUALITY_LABELS[quality]}`}
       </button>
 
-      <p className="text-xs text-[var(--text-muted)] text-center">
+      <p className="text-xs text-[var(--neutral-muted)] text-center">
         Secured by Stripe · Your card details are never stored on our servers
       </p>
     </form>
@@ -97,7 +97,7 @@ export default function PaymentForm() {
   if (!paymentIntentClientSecret) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="w-8 h-8 border-2 border-[var(--gold)] border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-[var(--funeral-primary)] border-t-transparent rounded-full animate-spin" />
       </div>
     )
   }
@@ -108,12 +108,13 @@ export default function PaymentForm() {
       options={{
         clientSecret: paymentIntentClientSecret,
         appearance: {
-          theme: 'night',
+          theme: 'stripe',
           variables: {
-            colorPrimary: '#c9a84c',
-            colorBackground: '#1f2330',
-            colorText: '#e8e3dc',
-            colorDanger: '#f87171',
+            colorPrimary: '#8B104E',
+            colorBackground: '#FFFFFF',
+            colorText: '#180026',
+            colorDanger: '#FF4E68',
+            fontFamily: 'Montserrat, system-ui, sans-serif',
             borderRadius: '8px',
           },
         },

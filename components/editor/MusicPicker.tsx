@@ -46,11 +46,11 @@ export default function MusicPicker() {
 
   return (
     <div className="space-y-4">
-      <div className="flex gap-1 bg-[var(--surface)] rounded-lg p-1">
+      <div className="flex gap-1 bg-[var(--neutral-highlight)] rounded-lg p-1">
         <button
           onClick={() => setTab('library')}
           className={`flex-1 py-1.5 rounded text-sm transition-colors ${
-            tab === 'library' ? 'bg-[var(--surface-2)] text-[var(--text)]' : 'text-[var(--text-muted)]'
+            tab === 'library' ? 'bg-[var(--neutral-deep-highlight)] text-[var(--neutral-text)]' : 'text-[var(--neutral-muted)]'
           }`}
         >
           Music Library
@@ -58,7 +58,7 @@ export default function MusicPicker() {
         <button
           onClick={() => setTab('custom')}
           className={`flex-1 py-1.5 rounded text-sm transition-colors ${
-            tab === 'custom' ? 'bg-[var(--surface-2)] text-[var(--text)]' : 'text-[var(--text-muted)]'
+            tab === 'custom' ? 'bg-[var(--neutral-deep-highlight)] text-[var(--neutral-text)]' : 'text-[var(--neutral-muted)]'
           }`}
         >
           Custom Audio
@@ -73,32 +73,32 @@ export default function MusicPicker() {
               onClick={() => selectTrack(track)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-colors ${
                 music.trackId === track.id
-                  ? 'bg-[var(--gold)]/10 border border-[var(--gold)]/30'
-                  : 'hover:bg-[var(--surface-2)]'
+                  ? 'bg-[var(--funeral-primary)]/10 border border-[var(--funeral-primary)]/30'
+                  : 'hover:bg-[var(--neutral-deep-highlight)]'
               }`}
             >
               <button
                 onClick={(e) => { e.stopPropagation(); playTrack(track) }}
-                className="w-7 h-7 flex items-center justify-center rounded-full bg-[var(--surface-2)] hover:bg-[var(--border)] flex-shrink-0"
+                className="w-7 h-7 flex items-center justify-center rounded-full bg-[var(--neutral-deep-highlight)] hover:bg-[var(--neutral-deep-highlight)] flex-shrink-0"
               >
                 {playing === track.id ? (
-                  <svg className="w-3 h-3 text-[var(--gold)]" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-3 h-3 text-[var(--funeral-primary)]" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" />
                   </svg>
                 ) : (
-                  <svg className="w-3 h-3 text-[var(--text-muted)]" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-3 h-3 text-[var(--neutral-muted)]" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" />
                   </svg>
                 )}
               </button>
               <div className="flex-1 min-w-0">
-                <p className={`text-sm truncate ${music.trackId === track.id ? 'text-[var(--gold)]' : 'text-[var(--text)]'}`}>
+                <p className={`text-sm truncate ${music.trackId === track.id ? 'text-[var(--funeral-primary)]' : 'text-[var(--neutral-text)]'}`}>
                   {track.title}
                 </p>
               </div>
-              <span className="text-xs text-[var(--text-muted)]">{formatDuration(track.durationSeconds)}</span>
+              <span className="text-xs text-[var(--neutral-muted)]">{formatDuration(track.durationSeconds)}</span>
               {music.trackId === track.id && (
-                <svg className="w-4 h-4 text-[var(--gold)]" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-4 h-4 text-[var(--funeral-primary)]" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" />
                 </svg>
               )}
@@ -106,8 +106,8 @@ export default function MusicPicker() {
           ))}
         </div>
       ) : (
-        <div className="border-2 border-dashed border-[var(--border)] rounded-lg p-6 text-center">
-          <p className="text-[var(--text-muted)] text-sm">Custom audio upload</p>
+        <div className="border-2 border-dashed border-[var(--neutral-deep-highlight)] rounded-lg p-6 text-center">
+          <p className="text-[var(--neutral-muted)] text-sm">Custom audio upload</p>
           <input
             type="file"
             accept="audio/mpeg,audio/mp3,audio/wav,audio/ogg"
@@ -130,13 +130,13 @@ export default function MusicPicker() {
                 })
               }
             }}
-            className="mt-3 text-sm text-[var(--text-muted)] file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:bg-[var(--surface-2)] file:text-[var(--text)] file:cursor-pointer"
+            className="mt-3 text-sm text-[var(--neutral-muted)] file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:bg-[var(--neutral-deep-highlight)] file:text-[var(--neutral-text)] file:cursor-pointer"
           />
         </div>
       )}
 
       <div className="flex items-center gap-3">
-        <label className="text-sm text-[var(--text-muted)] flex-shrink-0">Volume</label>
+        <label className="text-sm text-[var(--neutral-muted)] flex-shrink-0">Volume</label>
         <input
           type="range"
           min={0}
@@ -144,9 +144,9 @@ export default function MusicPicker() {
           step={0.05}
           value={music.volume}
           onChange={(e) => setMusic({ volume: Number(e.target.value) })}
-          className="flex-1 accent-[var(--gold)]"
+          className="flex-1 accent-[var(--funeral-primary)]"
         />
-        <span className="text-sm text-[var(--text-muted)] w-8">{Math.round(music.volume * 100)}%</span>
+        <span className="text-sm text-[var(--neutral-muted)] w-8">{Math.round(music.volume * 100)}%</span>
       </div>
     </div>
   )

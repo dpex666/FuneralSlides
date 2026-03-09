@@ -1,40 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600&display=swap');
 @import "tailwindcss";
 
 :root {
-  --bg: #0f1117;
-  --gold: #c9a84c;
-  --gold-light: #e4c97a;
-  --text: #e8e3dc;
-  --text-muted: #9a9188;
-  --surface: #181c25;
-  --surface-2: #1f2330;
-  --border: #2a2f3d;
+  /* Gaia brand colors */
+  --gaia-primary: #1D4641;
+  --gaia-secondary: #D4E9CA;
+  --gaia-tertiary: #48705B;
+  --gaia-quaternary: #85F199;
+
+  /* Funerals Live palette */
+  --funeral-primary: #8B104E;
+  --funeral-secondary: #FFCCCF;
+  --funeral-tertiary: #4D1C34;
+  --funeral-offwhite: #F7F6F3;
+
+  /* Neutral palette */
+  --neutral-bg: #FFFFFF;
+  --neutral-highlight: #F3F7FA;
+  --neutral-deep-highlight: #DBE7EF;
+  --neutral-text: #180026;
+  --neutral-muted: #807388;
+  --neutral-shade: #463351;
+
+  /* System */
+  --color-success: #00C48C;
+  --color-error: #FF4E68;
+  --color-warning: #FFC466;
+  --color-info: #98DBFF;
 }
 
 @theme inline {
-  --color-background: var(--bg);
-  --color-foreground: var(--text);
-  --color-gold: var(--gold);
-  --color-gold-light: var(--gold-light);
-  --color-muted: var(--text-muted);
-  --color-surface: var(--surface);
-  --color-surface-2: var(--surface-2);
-  --color-border: var(--border);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Gaia brand */
+  --color-gaia-primary: var(--gaia-primary);
+  --color-gaia-secondary: var(--gaia-secondary);
+  --color-gaia-tertiary: var(--gaia-tertiary);
+  --color-gaia-quaternary: var(--gaia-quaternary);
+
+  /* Funerals Live */
+  --color-funeral-primary: var(--funeral-primary);
+  --color-funeral-secondary: var(--funeral-secondary);
+  --color-funeral-tertiary: var(--funeral-tertiary);
+  --color-funeral-offwhite: var(--funeral-offwhite);
+
+  /* Neutrals */
+  --color-neutral-bg: var(--neutral-bg);
+  --color-neutral-highlight: var(--neutral-highlight);
+  --color-neutral-deep: var(--neutral-deep-highlight);
+  --color-neutral-text: var(--neutral-text);
+  --color-neutral-muted: var(--neutral-muted);
+  --color-neutral-shade: var(--neutral-shade);
+
+  /* System */
+  --color-success: var(--color-success);
+  --color-error: var(--color-error);
+  --color-warning: var(--color-warning);
+
+  /* Font */
+  --font-sans: 'Montserrat', sans-serif;
 }
 
 body {
-  background-color: var(--bg);
-  color: var(--text);
-  font-family: var(--font-sans), system-ui, sans-serif;
+  background: var(--neutral-bg);
+  color: var(--neutral-text);
+  font-family: 'Montserrat', sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-* {
-  box-sizing: border-box;
+/* Gaia gradient utility */
+.bg-gaia-gradient {
+  background: linear-gradient(10deg, var(--gaia-primary) 0%, var(--gaia-quaternary) 100%);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
 }
 
 ::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(--surface); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+::-webkit-scrollbar-track { background: var(--neutral-highlight); }
+::-webkit-scrollbar-thumb { background: var(--neutral-deep-highlight); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--neutral-muted); }
