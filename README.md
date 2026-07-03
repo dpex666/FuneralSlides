@@ -1,3 +1,10 @@
+> [!IMPORTANT]
+> **This tool has been integrated into the main Gaia website as [Gaia Slides](https://gaiaapp.net/gaia-slides).**
+>
+> The editor experience (media upload, timeline, slide settings, text overlays, collages, music, preview and video download) was ported to a fully client-side page at `gaia-slides.html` in the [`gaia-website-static`](https://github.com/life-and-passing-digital/gaia-website-static) repository, styled to the Gaia LIFE design system. All processing happens in the visitor's browser, so it runs on Firebase static hosting with no server, queue, or payment infrastructure.
+>
+> This repository remains the standalone server-backed version (Next.js + FFmpeg + BullMQ/Redis + Stripe paid HD exports). Keep it if a paid, server-rendered offering is revived; otherwise new feature work should happen on the Gaia Slides page in the main site repository.
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
